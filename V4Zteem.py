@@ -70,6 +70,25 @@ def center(t,c='',w=WIDTH):
     cl=re.sub(r'\x1b\[[0-9;]*m','',t); p=max((w-len(cl))//2,0)
     return ' '*p+c+t+Style.RESET_ALL
 
+
+def anim_banner():
+    """Animated terminal welcome animation"""
+    frames = [
+        "  ✦ Loading RASHD BRO ✦",
+        "  ✧ Initializing Neon ✧",
+        "  ✩ Ready to Capture ✩",
+        "  ✧ Connecting... ✧",
+        "  ✦ RASHD BRO Online ✦"
+    ]
+    colors = [Fore.CYAN, Fore.GREEN, Fore.MAGENTA, Fore.YELLOW, Fore.CYAN]
+    for i, (frame, col) in enumerate(zip(frames, colors)):
+        sys.stdout.write(f'\r{col}{Style.BRIGHT}{frame}{Style.RESET_ALL}')
+        sys.stdout.flush()
+        time.sleep(0.5)
+    sys.stdout.write('\r' + ' ' * 40 + '\r')
+    sys.stdout.flush()
+
+
 def st(msg,k='info'):
     ic={'info':'◆','ok':'✔','err':'✘','warn':'⚠','star':'★','zap':'⚡','lock':'🔒','send':'✉'}
     cl={'info':Fore.CYAN,'ok':Fore.GREEN,'err':Fore.RED,'warn':Fore.YELLOW,'star':Fore.MAGENTA,'zap':Fore.YELLOW,'lock':Fore.BLUE,'send':Fore.CYAN}
@@ -359,6 +378,7 @@ def run_cloud(port,choice):
 # ══════════════════════════════════════════════════════
 def main():
     global _srv,_mode
+    anim_banner()
     while True:
         banner(); site_menu()
         raw2=inp("Site  [1=FB 2=Insta 3=Mail 4=All]  ❯").strip(); print(Style.RESET_ALL,end="")
