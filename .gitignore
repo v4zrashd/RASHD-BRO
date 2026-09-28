@@ -1,7 +1,0 @@
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-v4z_config.json
-*.log
-.DS_Store
