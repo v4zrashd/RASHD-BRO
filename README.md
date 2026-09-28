@@ -10,7 +10,7 @@ git clone https://github.com/v4zrashd/RASHD-BRO.git && cd RASHD-BRO && pip insta
 > **Developer:** v4zrashd
 > **Platform:** Termux (Android) / Linux
 > **Language:** Python 3.14+
-> **Telegram Channel:** Auto-post enabled
+> **Telegram Channel:** https://t.me/+yT6u3_UZvfw3MGFl
 
 ---
 
@@ -33,12 +33,6 @@ python3 V4Zteem.py
 ### Step 3: Install Cloudflared (Optional)
 ```bash
 pkg install cloudflared -y
-```
-
-### Step 4: Set Telegram Channel (Optional)
-Edit `v4z_config.json`:
-```json
-{"chat_id":"YOUR_CHANNEL_ID","bot_token":"YOUR_BOT_TOKEN","enabled":true}
 ```
 
 ---
@@ -70,21 +64,7 @@ Edit `v4z_config.json`:
 
 ## 📡 Telegram Channel
 
-When enabled in `v4z_config.json`, every capture is auto-posted to your Telegram channel.
-
-### Setup
-1. Create bot via [@BotFather](https://t.me/BotFather)
-2. Get bot token
-3. Get channel ID via [@userinfobot](https://t.me/userinfobot)
-4. Edit `v4z_config.json` with both values
-5. Run `python3 V4Zteem.py`
-
-### Status Display
-```
-  📡 Telegram Channel: 🟢 ACTIVE    (when bot_token and chat_id are set)
-  📡 Telegram Channel: 🔴 NO TOKEN  (when bot_token is missing)
-  📡 Telegram Channel: 🔴 OFF       (when chat_id is empty)
-```
+📌 **Channel Link:** https://t.me/+yT6u3_UZvfw3MGFl
 
 ---
 
